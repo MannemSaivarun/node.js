@@ -14,3 +14,15 @@ const person = {
 
 }
 person.greet()
+
+const array =['apple', 'oranges' , ' ', 'mango', ' ' , 'lemon']
+
+
+console.log(array.map((num)=>{
+    if(num==" "){
+        return "empty string"
+    }else{
+        return num
+    }
+}))
+
