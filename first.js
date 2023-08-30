@@ -29,7 +29,30 @@
 
 const http = require('http');
 const server = http.createServer((request,response)=>{
-    response.writeHead("200");
+
+    const url = request.url;
+    if(url==="/home"){
+        response.write('<html>')
+        response.write('<head>Welcome home</head>')
+        response.write('<br></br>')
+        response.write('</html>')
+        return response.end()
+    }else if(url==="/about"){
+        response.write('<html>')
+        response.write('<head>Welcome to about page</head>')
+        response.write('<br></br>')
+        response.write('</html>')
+        return response.end()
+    }else if(url==="/node"){
+        response.write('<html>')
+        response.write('<head>Welcome to my Nodejs project</head>')
+        response.write('<br></br>')
+        response.write('</html>')
+        return response.end()
+    }
+
+    
+    
     response.end("hi my name is varun")
 })
 
