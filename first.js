@@ -28,32 +28,68 @@
 
 
 const http = require('http');
+const fs = require('fs');
 const server = http.createServer((request,response)=>{
 
     const url = request.url;
-    if(url==="/home"){
-        response.write('<html>')
-        response.write('<head>Welcome home</head>')
-        response.write('<br></br>')
-        response.write('</html>')
-        return response.end()
-    }else if(url==="/about"){
-        response.write('<html>')
-        response.write('<head>Welcome to about page</head>')
-        response.write('<br></br>')
-        response.write('</html>')
-        return response.end()
-    }else if(url==="/node"){
-        response.write('<html>')
-        response.write('<head>Welcome to my Nodejs project</head>')
-        response.write('<br></br>')
-        response.write('</html>')
-        return response.end()
+    const method = request.method;
+    if(url === "/"){
+        fs.readFile('message.txt',{encoding: "utf-8"}, (err,data)=>{
+            response.write('<html>')
+            response.write('<head><title>Enter message</title></head>')
+            response.write(`<body>${data}</body>`);
+            response.write('<body><form action="/message" method="POST"><input type="text" name="message"><button>Send</button></form></body>')
+            response.write('</html>')
+            return response.end();
+        })  
     }
+    else if(url === "/message" && method==="POST"){
+        const body=[];
+        request.on('data',(chunk)=>{
+            body.push(chunk);
+        });
+        return request.on('end',()=>{
+            const parsedBody = Buffer.concat(body).toString();
+            const message = parsedBody.split('=')[1]    
+            fs.writeFile('message.txt', message, err=>{
+                response.statusCode = 302;
+                response.setHeader('Location','/');
+                return response.end();
+                
+            });
+                // response.write('<html>')
+                // response.write(`<head>${message}</head>`)
+                // response.write('<br></br>')
+                // response.write('</html>')
+                
+            
+        })
+        
+        
+    }
+    // if(url==="/home"){
+    //     response.write('<html>')
+    //     response.write('<head>Welcome home</head>')
+    //     response.write('<br></br>')
+    //     response.write('</html>')
+    //     return response.end()
+    // }else if(url==="/about"){
+    //     response.write('<html>')
+    //     response.write('<head>Welcome to about page</head>')
+    //     response.write('<br></br>')
+    //     response.write('</html>')
+    //     return response.end()
+    // }else if(url==="/node"){
+    //     response.write('<html>')
+    //     response.write('<head>Welcome to my Nodejs project</head>')
+    //     response.write('<br></br>')
+    //     response.write('</html>')
+    //     return response.end()
+    // }
 
     
     
-    response.end("hi my name is varun")
+    // response.end("hi my name is varun")
 })
 
 server.listen(4000,"localhost",()=>{
