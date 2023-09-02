@@ -1,3 +1,107 @@
+//const http = require('http');
+
+const express = require('express');
+
+const app = express();
+
+app.use((req,res,next)=>{
+    console.log("this is middle ware function")
+    next();  // this next() allows request to continue to new middleware functions. 
+}); //use is a express.js method which allow us to add new middlware function(argument is middleware funtion) which will run for every incoming request 
+
+app.use((req,res,next)=>{
+    console.log("this is Another middle ware function");
+    res.send('<h1>Hello from Express js</h1>')
+    
+});
+app.listen(4000);
+// const server = http.createServer(app);
+
+// server.listen(4000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // console.log("hello world");
 
 // let product = (a,b) =>{
@@ -26,11 +130,11 @@
 //     }
 // }))
 
-const http = require('http');
+// const http = require('http');
 
-const routes = require('./routes');
+//const routes = require('./routes');
 
-const server = http.createServer(routes);
+// const server = http.createServer(routes);
 //const server = http.createServer((request,response)=>{
 
     // const url = request.url;
@@ -55,12 +159,10 @@ const server = http.createServer(routes);
     //     response.write('</html>')
     //     return response.end()
     // }
-
-    
-    
+ 
     // response.end("hi my name is varun")
 //})
 
-server.listen(4000,"localhost",()=>{
-    console.log("hi my name varun")
-})
+// server.listen(4000,"localhost",()=>{
+//     console.log("hi my name varun")
+// })
