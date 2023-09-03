@@ -1,19 +1,28 @@
 //const http = require('http');
 
-const express = require('express');
+const express = require('express'); // npm install -g express
+const bodyParser = require('body-parser');//npm install --save body-parser. it used to process the data sent to the body.  
 
 const app = express();
 
-app.use((req,res,next)=>{
-    console.log("this is middle ware function")
-    next();  // this next() allows request to continue to new middleware functions. 
+app.use(bodyParser.urlencoded({extended:false}))
+
+app.use("/add-product",(req,res,next)=>{
+    res.send('<form action="/product" method="POST"><input type="text" name="title" ></input><input type="number" name="size"></input><button type="submit">Add Product</button></form>')
+      // this next() allows request to continue to new middleware functions. 
 }); //use is a express.js method which allow us to add new middlware function(argument is middleware funtion) which will run for every incoming request 
 
-app.use((req,res,next)=>{
-    console.log("this is Another middle ware function");
+app.use("/product", (req,res,next)=>{
+    console.log(req.body);
+    res.redirect("/");
+
+})
+
+app.use("/",(req,res,next)=>{
     res.send('<h1>Hello from Express js</h1>')
-    
 });
+
+
 app.listen(4000);
 // const server = http.createServer(app);
 
