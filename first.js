@@ -7,21 +7,17 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}))
 
-app.use("/add-product",(req,res,next)=>{
-    res.send('<form action="/product" method="POST"><input type="text" name="title" ></input><input type="number" name="size"></input><button type="submit">Add Product</button></form>')
-      // this next() allows request to continue to new middleware functions. 
-}); //use is a express.js method which allow us to add new middlware function(argument is middleware funtion) which will run for every incoming request 
+const adminRouter = require('./routes/admin');
 
-app.use("/product", (req,res,next)=>{
-    console.log(req.body);
-    res.redirect("/");
+const shopRouter  = require('./routes/shop');
 
+app.use('/admin', adminRouter);  // '/admin' this means that the url starting with /admin will go into adminRouter.(filtering) 
+
+app.use('/shop', shopRouter);
+
+app.use((req,res,next)=>{
+    res.status(404).send('<h1>Page not found</h1>')
 })
-
-app.use("/",(req,res,next)=>{
-    res.send('<h1>Hello from Express js</h1>')
-});
-
 
 app.listen(4000);
 // const server = http.createServer(app);
