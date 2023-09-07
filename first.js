@@ -2,21 +2,25 @@
 
 const express = require('express'); // npm install -g express
 const bodyParser = require('body-parser');//npm install --save body-parser. it used to process the data sent to the body.  
-
+const path = require('path');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}))
 
-const adminRouter = require('./routes/admin');
+app.use(express.static(path.join(__dirname,'public')));//static is used to find the path for static files such as admin.css and shop.css.now we can add links inn
 
-const shopRouter  = require('./routes/shop');
+const adminRouter = require('./routes/admin.js');
+const shopRouter  = require('./routes/shop.js');
+const ContactRouter = require('./routes/contactus.js');
+const exp = require('constants');
 
 app.use('/admin', adminRouter);  // '/admin' this means that the url starting with /admin will go into adminRouter.(filtering) 
 
 app.use('/shop', shopRouter);
+app.use('/contactus',ContactRouter);
 
 app.use((req,res,next)=>{
-    res.status(404).send('<h1>Page not found</h1>')
+    res.status(404).sendFile(path.join(__dirname,'views','404.html'))
 })
 
 app.listen(4000);
